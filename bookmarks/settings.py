@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -25,8 +24,7 @@ SECRET_KEY = '3+!rnj9bp!+eu@_15eb5hobio1uwt0g+vzvi28=u(#%go@ofdl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -38,6 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'social_django',
+    'images.apps.ImagesConfig'
 ]
 
 MIDDLEWARE = [
@@ -71,7 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bookmarks.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -81,7 +80,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -101,7 +99,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -118,6 +115,16 @@ USE_TZ = True
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authentication.EmailAuthBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
+]
+
+SOCIAL_AUTH_FACEBOOK_KEY = '181674570389053'  # Facebook App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '1ad064742ce4d6d2eb42dee18ede3b95'  # Facebook App Secret
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Static files (CSS, JavaScript, Images)
