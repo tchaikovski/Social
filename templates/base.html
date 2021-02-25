@@ -38,13 +38,13 @@
 
 {% if messages %}
     <ul class="messages">
-    {% for message in messages %}
-    <li class="{{ message.tags }}">
-        {{ message|safe }}
-        <a href="#" class="close">x</a>
-    </li>
-    </ul>
-    {% endfor %}
+        {% for message in messages %}
+            <li class="{{ message.tags }}">
+                {{ message|safe }}
+                <a href="#" class="close">x</a>
+            </li>
+            </ul>
+        {% endfor %}
 {% endif %}
 
 <div id="content">
@@ -53,4 +53,26 @@
     {% endblock %}
 </div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script>
+    var csrftoken = Cookies.get('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    $(document).ready(function () {
+        {% block domready %}
+        {% endblock %}
+    });
+</script>
 </html>
